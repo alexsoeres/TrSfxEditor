@@ -10,7 +10,7 @@ namespace TrSfxLib
         public static void Main(string[] args)
         {
             Random rand = new Random();
-            var shit = ReadSfx(@"D:\SteamLibrary\steamapps\common\Tomb Raider (II)\data\MAIN.SFX");
+            List<WaveFile> shit = ReadSfx(@"D:\SteamLibrary\steamapps\common\Tomb Raider (II)\data\MAIN.SFX");
 
             using (FileStream outSfx = File.OpenWrite(@"D:\SteamLibrary\steamapps\common\Tomb Raider (II)\data\DESPACITO.SFX"))
             using (BinaryWriter writer = new BinaryWriter(outSfx))

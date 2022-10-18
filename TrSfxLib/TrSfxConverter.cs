@@ -13,7 +13,7 @@ namespace TrSfxLib
                 return waveFile; //already same format
             }
             
-            var samples = GetSamples(waveFile);
+            List<Sample> samples = GetSamples(waveFile);
             WaveFile.WaveFormat currentFormat = waveFile.Format;
             
             if (desiredFormat.SampleRate < currentFormat.SampleRate)
@@ -27,7 +27,7 @@ namespace TrSfxLib
 
             if (desiredFormat.Channels < waveFile.Format.Channels)
             {
-                samples = ReduceChannels(samples, desiredFormat);;
+                samples = ReduceChannels(samples, desiredFormat);
             } 
             else if (desiredFormat.Channels > waveFile.Format.Channels)
             {
@@ -41,7 +41,7 @@ namespace TrSfxLib
 
         private static List<Sample> ExpandChannels(WaveFile.WaveFormat desiredFormat, List<Sample> samples)
         {
-            var result = samples
+            List<Sample> result = samples
                 .Select(x => new Sample(x.Channels.Expand(desiredFormat.Channels, x.Channels[0])))
                 .ToList();
             return result;
@@ -49,7 +49,7 @@ namespace TrSfxLib
 
         private static List<Sample> ReduceChannels(List<Sample> samples, WaveFile.WaveFormat desiredFormat)
         {
-            var result = samples
+            List<Sample> result = samples
                 .Select(x => new Sample(x.Channels.SubArray(0, desiredFormat.Channels)))
                 .ToList();
             return result;
@@ -58,7 +58,7 @@ namespace TrSfxLib
         private static List<Sample> ReduceSampleRate(List<Sample> samples, WaveFile.WaveFormat currentFormat, WaveFile.WaveFormat desiredFormat)
         {
             int samplesPerSample = (int) (currentFormat.SampleRate / desiredFormat.SampleRate);
-            var reduced = new List<Sample>();
+            List<Sample> reduced = new List<Sample>();
             for (int i = 0; i < samples.Count; i += samplesPerSample)
             {
                 reduced.Add(samples[i]);
@@ -70,7 +70,7 @@ namespace TrSfxLib
         private static List<Sample> ExpandSampleRate(List<Sample> samples, WaveFile.WaveFormat currentFormat, WaveFile.WaveFormat desiredFormat)
         {
             int repeatsPerSample = (int) (desiredFormat.SampleRate / currentFormat.SampleRate);
-            var expanded = new List<Sample>();
+            List<Sample> expanded = new List<Sample>();
             foreach (Sample sample in samples)
             {
                 for (int repeats = 0; repeats < repeatsPerSample; repeats++)
@@ -91,17 +91,17 @@ namespace TrSfxLib
             
             int bytesPerSample = 2 * waveFile.Format.Channels;
                 
-            var samples = new List<Sample>();
+            List<Sample> samples = new List<Sample>();
             for (int offset = 0; offset + (bytesPerSample - 1) < waveFile.Data.Data.Length; offset += bytesPerSample)
             {
                 byte[] input = waveFile.Data.Data;
                 
-                var sampleData = input.SubArray(offset, bytesPerSample);
+                byte[] sampleData = input.SubArray(offset, bytesPerSample);
 
-                var channels = new List<short>();
+                List<short> channels = new List<short>();
                 for (int c = 0; c < waveFile.Format.Channels; c++)
                 {
-                    var channelData = sampleData.SubArray(c * 2, 2);
+                    byte[] channelData = sampleData.SubArray(c * 2, 2);
                     
                     channels.Add(BitConverter.ToInt16(channelData));
                 }
@@ -113,7 +113,7 @@ namespace TrSfxLib
 
         private static T[] SubArray<T>(this T[] input, int offset, int length)
         {
-            var o = new T[length];
+            T[] o = new T[length];
             Array.Copy(input, offset, o, 0, length);
             return o;
         }
@@ -121,7 +121,7 @@ namespace TrSfxLib
         
         private static T[] Expand<T>(this T[] input, int length, T emptyValue)
         {
-            var o = Enumerable.Repeat(emptyValue, length).ToArray();
+            T[] o = Enumerable.Repeat(emptyValue, length).ToArray();
             Array.Copy(input, 0, o, 0, input.Length);
             return o;
         }
