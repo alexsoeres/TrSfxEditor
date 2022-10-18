@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrSfx", "TrSfx\TrSfx.csproj", "{B10239EC-7864-4F08-903E-1C76296829A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrSfxLib", "TrSfxLib\TrSfxLib.csproj", "{FDF29827-9067-4D97-971A-21C9C1BFA995}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B10239EC-7864-4F08-903E-1C76296829A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B10239EC-7864-4F08-903E-1C76296829A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B10239EC-7864-4F08-903E-1C76296829A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B10239EC-7864-4F08-903E-1C76296829A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDF29827-9067-4D97-971A-21C9C1BFA995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDF29827-9067-4D97-971A-21C9C1BFA995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDF29827-9067-4D97-971A-21C9C1BFA995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDF29827-9067-4D97-971A-21C9C1BFA995}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
