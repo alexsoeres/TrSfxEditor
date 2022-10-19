@@ -126,7 +126,7 @@ namespace TrSfx
                 .Where(x => !WaveFile.WaveFormat.WaveFormatComparer.Equals(x.File.Format, format)).ToList();
             
             Console.WriteLine($"Converting {files.Count} files...");
-            foreach (var wavFile in files)
+            foreach (var wavFile in files.Select(x => new { x.FileName, File = TrSfxConverter.Convert(x.File, format)}))
             {
                 using FileStream outStream = File.Create(wavFile.FileName);
                 outStream.Write(wavFile.File.Serialize());
