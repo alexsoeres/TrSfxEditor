@@ -98,12 +98,36 @@ namespace TrSfxLib
 
                 WaveFile.WaveFormat format = new WaveFile.WaveFormat(samplesPerSec, bitsPerSample, channels);
 
+                // handle LIST
+                byte firstByteList = reader.ReadByte();
+                byte firstByteData;
+                bool hasList = firstByteList == 0x4c;
+                uint listChunkSize = 0;
+                if (hasList)
+                {
+                    if (reader.ReadByte() != 0x49 ||
+                        reader.ReadByte() != 0x53 ||
+                        reader.ReadByte() != 0x54)
+                        throw new Exception("Failure to read next sound effect: \"LIST\" expected at position 36.");
+                    listChunkSize = reader.ReadUInt32();
+                    reader.ReadBytes((int)listChunkSize); //skip
+                    
+                    firstByteData = reader.ReadByte();
+                }
+                else
+                {
+                    firstByteData = firstByteList;
+                }
+                    
                 //check data chunkid
-                if (reader.ReadByte() != 0x64 ||
+                if (firstByteData != 0x64 ||
                     reader.ReadByte() != 0x61 ||
                     reader.ReadByte() != 0x74 ||
                     reader.ReadByte() != 0x61)
-                    throw new Exception("Failure to read next sound effect: \"data\" expected at position 36.");
+                {
+                    int pos = hasList ? (36 + 8 + (int) listChunkSize) : 36;
+                    throw new Exception($"Failure to read next sound effect: \"data\" expected at position {pos}.");
+                }
 
                 //read data
                 uint dataChunkSize = reader.ReadUInt32();
